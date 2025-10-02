@@ -18,7 +18,7 @@ public class UI {
 		g2.setFont(setFont(new Font("Arial", Font.BOLD, 20)));
 		g2.setColor(Color.white);
 		playerX = panel.getPlayer().getX() / panel.getTileSize();
-		playerY = panel.getPlayer().getY() / panel.getTileSize();
+		playerY = panel.getPlayer().getY() / panel.getTileSize() + 1;
 		g2.drawString("x: " + playerX + " y: " + playerY, 20, 30);
 	}
 
