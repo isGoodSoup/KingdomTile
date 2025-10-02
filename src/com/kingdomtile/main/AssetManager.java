@@ -44,7 +44,7 @@ public class AssetManager {
 		panel.getObject()[5].setWorldY(13 * panel.getTileSize());
 		
 		panel.getObject()[6] = new Sword(panel);
-		panel.getObject()[6].setWorldX(7 * panel.getTileSize());
+		panel.getObject()[6].setWorldX(15 * panel.getTileSize());
 		panel.getObject()[6].setWorldY(27 * panel.getTileSize());
 	}
 }
