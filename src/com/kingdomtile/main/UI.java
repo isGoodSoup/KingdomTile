@@ -14,7 +14,8 @@ public class UI {
 	private Font font;
 	private int playerX;
 	private int playerY;
-	private int iconX, iconY;
+	private int iconX = 20;
+	private int iconY = 15;
 	private int textX, textY;
 	private int iconWidth = 48;
 	private int iconHeight = iconWidth;
@@ -33,7 +34,6 @@ public class UI {
 	}
 	
 	public void draw(Graphics2D g2) {
-		iconX = 20; iconY = 15;
 		textX = iconX + image.getWidth() + 40;
 		textY = iconY + image.getHeight() / 2 + 20;
 		
