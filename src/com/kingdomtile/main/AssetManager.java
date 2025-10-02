@@ -4,6 +4,7 @@ import com.kingdomtile.objects.Chest;
 import com.kingdomtile.objects.Door;
 import com.kingdomtile.objects.Key;
 import com.kingdomtile.objects.Shield;
+import com.kingdomtile.objects.Sword;
 
 public class AssetManager {
 	private Panel panel;
@@ -39,7 +40,11 @@ public class AssetManager {
 		panel.getObject()[4].setWorldY(chestY * panel.getTileSize());
 		
 		panel.getObject()[5] = new Key(panel);
-		panel.getObject()[5].setWorldX(16 * panel.getTileSize());
+		panel.getObject()[5].setWorldX(17 * panel.getTileSize());
 		panel.getObject()[5].setWorldY(13 * panel.getTileSize());
+		
+		panel.getObject()[6] = new Sword(panel);
+		panel.getObject()[6].setWorldX(7 * panel.getTileSize());
+		panel.getObject()[6].setWorldY(27 * panel.getTileSize());
 	}
 }
