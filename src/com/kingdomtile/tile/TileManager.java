@@ -42,12 +42,23 @@ public class TileManager extends Tile {
 	public void getTileImage() {
 		setTileImage(0, "/com/kingdomtile/tile/grass_01.png", false);
 		setTileImage(1, "/com/kingdomtile/tile/stone.png", true);
-		setTileImage(2, "/com/kingdomtile/tile/water.png", true);
+		setTileImage(2, "/com/kingdomtile/tile/water_01.png", true);
 		setTileImage(3, "/com/kingdomtile/tile/dirt.png", false);
 		setTileImage(4, "/com/kingdomtile/tile/tree.png", true);
 		setTileImage(5, "/com/kingdomtile/tile/sand.png", false);
 		setTileImage(6, "/com/kingdomtile/tile/grass_02.png", false);
 		setTileImage(7, "/com/kingdomtile/tile/wood.png", false);
+		setTileImage(8, "/com/kingdomtile/tile/water_02.png", true);
+		setTileImage(9, "/com/kingdomtile/tile/water_03.png", true);
+		setTileImage(10, "/com/kingdomtile/tile/water_04.png", true);
+		setTileImage(11, "/com/kingdomtile/tile/water_05.png", true);
+		setTileImage(12, "/com/kingdomtile/tile/water_06.png", true);
+		setTileImage(13, "/com/kingdomtile/tile/water_07.png", true);
+		setTileImage(14, "/com/kingdomtile/tile/water_08.png", true);
+		setTileImage(15, "/com/kingdomtile/tile/water_09.png", true);
+		setTileImage(16, "/com/kingdomtile/tile/water_10.png", true);
+		setTileImage(17, "/com/kingdomtile/tile/water_11.png", true);
+		setTileImage(18, "/com/kingdomtile/tile/water_12.png", true);
 	}
 	
 	public void setTileImage(int i, String source, boolean isCollision) {
