@@ -7,11 +7,12 @@ public class Input implements KeyListener {
 	private boolean isUpPressed, isDownPressed, isLeftPressed, isRightPressed, isSpacePressed;
 	private boolean isEPressed, EJustPressed;
 	private boolean isShiftPressed, isCtrlPressed;
-	private boolean isEscapePressed;
+	private boolean isEscapePressed, escapeJustPressed;
 	private int key;
 	
 	public void update() {
 		EJustPressed = false;
+		escapeJustPressed = false;
 	}
 	
 	@Override
@@ -56,8 +57,11 @@ public class Input implements KeyListener {
 			isCtrlPressed = true;
 		}
 		
-		if(key == KeyEvent.VK_ESCAPE) {
-			isEscapePressed = true;
+		if (key == KeyEvent.VK_ESCAPE) {
+		    if (!isEscapePressed) {
+		        escapeJustPressed = true;
+		    }
+		    isEscapePressed = true;
 		}
 	}
 
@@ -140,5 +144,9 @@ public class Input implements KeyListener {
 
 	public boolean isEscapePressed() {
 		return isEscapePressed;
+	}
+
+	public boolean isEscapeJustPressed() {
+		return escapeJustPressed;
 	}
 }

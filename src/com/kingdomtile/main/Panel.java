@@ -34,6 +34,7 @@ public class Panel extends JPanel implements Runnable {
 	private final int worldHeight = tileSize * maxScreenRow;
 	
 	// FPS
+	private volatile boolean paused = false;
 	private int fps = 60;
 	private long currentTime;
 	private double drawInterval = 1000000000 / fps;
@@ -65,6 +66,20 @@ public class Panel extends JPanel implements Runnable {
 	@Override
 	public void run() {
 		while (gameThread != null) {
+			if (key.isEscapeJustPressed()) {
+	            paused = !paused;
+	            key.update();
+	        }
+			
+			if (paused) {
+	            try {
+	                Thread.sleep(100);
+	                continue;
+	            } catch (InterruptedException e) {
+	                Thread.currentThread().interrupt();
+	            }
+	        }
+			
 			currentTime = System.nanoTime();
 			delta += (currentTime - lastTime) / drawInterval;
 			lastTime = currentTime;
