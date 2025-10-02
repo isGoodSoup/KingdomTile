@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import com.kingdomtile.entity.Player;
 import com.kingdomtile.objects.SuperObject;
+import com.kingdomtile.objects.Sword;
 import com.kingdomtile.tile.TileManager;
 
 public class Panel extends JPanel implements Runnable {
@@ -52,6 +53,9 @@ public class Panel extends JPanel implements Runnable {
 	private UI GUI = new UI(this);
 	private SuperObject object[] = new SuperObject[10];
 	private final static Logger log = LoggerFactory.getLogger(Panel.class);
+	
+	// Items
+	private Sword sword = new Sword(this);
 	
 	public Panel() {
 		log.info("Session started");
@@ -113,8 +117,18 @@ public class Panel extends JPanel implements Runnable {
 				object[i].draw(g2, this);
 			}
 		}
-		player.draw(g2);
 		GUI.draw(g2);
+		if(getPlayer().isSwordHeld()) {
+			if(getPlayer().getLastDirection().equals("right") || getPlayer().getLastDirection().equals("down") ) {
+				player.draw(g2);
+				sword.draw(g2); 
+			} else {
+				sword.draw(g2); 
+				player.draw(g2);
+			}
+		} else {
+			player.draw(g2);
+		}
 		g2.dispose();
 	}
 	

@@ -9,7 +9,10 @@ import com.kingdomtile.main.Panel;
 public class SuperObject {
 	protected String name;
 	protected boolean collision = false;
-	protected BufferedImage chest1, chest2, door1, door2, image;
+	protected BufferedImage image;
+	protected BufferedImage chest1, chest2, door1, door2;
+	protected BufferedImage sword1, sword2;
+	
 	protected int worldX, worldY;
 	protected int screenX, screenY;
 	protected Rectangle solidRectangle = new Rectangle(0, 0, 48, 48);

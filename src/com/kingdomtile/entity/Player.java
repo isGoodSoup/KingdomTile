@@ -15,6 +15,7 @@ import com.kingdomtile.objects.Chest;
 import com.kingdomtile.objects.Door;
 import com.kingdomtile.objects.Key;
 import com.kingdomtile.objects.SuperObject;
+import com.kingdomtile.objects.Sword;
 
 public class Player extends Entity {
 	private Panel panel;
@@ -26,6 +27,7 @@ public class Player extends Entity {
 	private final int screenY;
 	private int livesCounter = 4;
 	private int keyCounter = 0;
+	private boolean isSwordHeld = false;
 	private final static Logger log = LoggerFactory.getLogger(Player.class);
 
 	public Player(Panel panel, Input key) {
@@ -101,13 +103,24 @@ public class Player extends Entity {
 		if(!isCollisionOn) {
 			switch(direction) {
 			case "up": 
-				worldY -= speed; break;
+				worldY -= speed;
+				lastDirection = "up";
+				break;
+				
 			case "down": 
-				worldY += speed; break;
+				worldY += speed; 
+				lastDirection = "down";
+				break;
+				
 			case "left": 
-				worldX -= speed; break;
+				worldX -= speed; 
+				lastDirection = "left";
+				break;
+				
 			case "right": 
-				worldX += speed; break;
+				worldX += speed; 
+				lastDirection = "right";
+				break;
 			}
 		}
 		
@@ -141,12 +154,15 @@ public class Player extends Entity {
 		            case "up":
 		                image = (spriteNum == 1) ? idle3 : idle4;
 		                break;
+		                
 		            case "down":
 		                image = (spriteNum == 1) ? idle1 : idle2;
 		                break;
+		                
 		            case "left":
 		                image = (spriteNum == 1) ? idle5 : idle6;
 		                break;
+		                
 		            case "right":
 		                image = (spriteNum == 1) ? idle7 : idle8;
 		                break;
@@ -156,18 +172,22 @@ public class Player extends Entity {
 				if(spriteNum == 1) image = up1;
 				if(spriteNum == 2) image = up2;
 				break;
+				
 			case "down":
 				if(spriteNum == 1) image = down1;
 				if(spriteNum == 2) image = down2;
 				break;
+				
 			case "left":
 				if(spriteNum == 1) image = left1;
 				if(spriteNum == 2) image = left2;
 				break;
+				
 			case "right":
 				if(spriteNum == 1) image = right1;
 				if(spriteNum == 2) image = right2;
 				break;
+				
 		}
 		g2.drawImage(image, screenX, screenY, panel.getTileSize(), panel.getTileSize(), null);
 	}
@@ -186,6 +206,10 @@ public class Player extends Entity {
 	    			Door door = (Door) obj;
 	    			door.toggle();
 	    		}
+	    	} else if (obj instanceof Sword) {
+	    		Sword sword = (Sword) obj;
+	    		sword.equip();
+	    		panel.getObject()[i] = null;
 	    	} else if (obj != null){
 	    		if(obj instanceof Key) {
 	    			keyCounter++;
@@ -246,5 +270,17 @@ public class Player extends Entity {
 
 	public void setKeyCounter(int keyCounter) {
 		this.keyCounter = keyCounter;
+	}
+
+	public boolean isSwordHeld() {
+		return isSwordHeld;
+	}
+
+	public void setSwordHeld(boolean isSwordHeld) {
+		this.isSwordHeld = isSwordHeld;
+	}
+	
+	public String getLastDirection() {
+	    return lastDirection;
 	}
 }
