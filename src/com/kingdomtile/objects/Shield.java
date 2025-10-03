@@ -34,5 +34,8 @@ public class Shield extends SuperObject {
 	public void toggle() { return; }
 
 	@Override
-	public void onPickup(Player player, int index) { return; }
+	public void onPickup(Player player, int index) { 
+		panel.playFX(0);
+		player.nullifyObject(index);
+	}
 }
