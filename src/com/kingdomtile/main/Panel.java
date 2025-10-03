@@ -46,6 +46,8 @@ public class Panel extends JPanel implements Runnable {
 	
 	
 	// Core
+	private Graphics2D g2;
+	private Graphics2D crtG;
 	private Thread gameThread;
 	private Input key = new Input();
 	private Collision collision = new Collision(this);
@@ -75,7 +77,6 @@ public class Panel extends JPanel implements Runnable {
 			if (key.isEscapeJustPressed()) {
 	            paused = !paused;
 	            key.update();
-	            getGUI().pauseScreen();
 	        }
 			
 			if (paused) {
@@ -107,17 +108,14 @@ public class Panel extends JPanel implements Runnable {
 	@Override
 	public void paintComponent(Graphics g) {
 	    super.paintComponent(g);
-	    Graphics2D crtG = crt.getBufferedGraphics();
+	    crtG = crt.getBufferedGraphics();
 	    crtG.setColor(Color.BLACK);
 	    crtG.fillRect(0, 0, getScreenWidth(), getScreenHeight());
 
 	    tileM.draw(crtG);
-	    for (int i = 0; i < object.length; i++) {
-	        if (object[i] != null) {
-	            object[i].draw(crtG, this);
-	        }
+	    for (SuperObject obj : object) {
+	        if (obj != null) obj.draw(crtG, this);
 	    }
-	    GUI.draw(crtG);
 
 	    if (getPlayer().isSwordHeld()) {
 	        if (getPlayer().getLastDirection().equals("right") || getPlayer().getLastDirection().equals("down")) {
@@ -130,6 +128,11 @@ public class Panel extends JPanel implements Runnable {
 	    } else {
 	        player.draw(crtG);
 	    }
+	    GUI.draw(crtG);
+	    if(paused) {
+	    	GUI.pauseScreen(crtG);
+	    }
+	    
 	    crtG.dispose();
 
 	    offsetX = (getWidth() - getScreenWidth())/2;
@@ -208,6 +211,10 @@ public class Panel extends JPanel implements Runnable {
 
 	public Player getPlayer() {
 		return player;
+	}
+	
+	public Graphics2D getG2() {
+		return g2;
 	}
 
 	public Collision getCollision() {

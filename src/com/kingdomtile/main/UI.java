@@ -12,13 +12,12 @@ public class UI {
 	private BufferedImage image;
 	private Panel panel;
 	private Font font;
-	private Graphics2D g2;
 	private int playerX;
 	private int playerY;
 	private int iconX = 20;
 	private int iconY = 15;
 	private int textX, textY;
-	private int iconWidth = 48;
+	private int iconWidth = 64;
 	private int iconHeight = iconWidth;
 	private String pause = "PAUSE MENU";
 	
@@ -29,17 +28,20 @@ public class UI {
 	
 	public void getIcon() {
 		try {
-			image = ImageIO.read(getClass().getResourceAsStream("/com/kingdomtile/ui/icon.png"));
+			String defaultPath = "/com/kingdomtile/ui/";
+			image = ImageIO.read(getClass().getResourceAsStream(defaultPath + "icon.png"));
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	public void draw(Graphics2D g2) {
-		textX = iconX + image.getWidth() + 40;
-		textY = iconY + image.getHeight()/2 + 20;
+		textX = iconX + iconWidth + 20;
+		textY = iconY + iconHeight/2 + g2.getFontMetrics().getAscent()/2;
 		
-		g2.setFont(setFont(new Font("Arial", Font.BOLD, 25)));
+		Font hudFont = new Font("Arial", Font.BOLD, 25);
+		
+		g2.setFont(setFont(hudFont));
 		g2.setColor(Color.black);
 		playerX = panel.getPlayer().getX()/panel.getTileSize();
 		playerY = panel.getPlayer().getY()/panel.getTileSize() + 1;
@@ -47,16 +49,16 @@ public class UI {
 		g2.drawImage(image, iconX, iconY, iconWidth, iconHeight, panel);
 	}
 	
-	public void pauseScreen() {
-		g2.setFont(setFont(new Font("Arial", Font.BOLD, 25)));
+	public void pauseScreen(Graphics2D g2) {
+		Font pauseFont = new Font("Arial", Font.BOLD, 80);
+		g2.setFont(pauseFont);
 		g2.setColor(Color.white);
-		g2.drawString(pause, centerX(pause), panel.getScreenHeight()/2);
+		g2.drawString(pause, centerX(g2, pause), panel.getScreenHeight()/2 + 20);
 	}
 	
-	public int centerX(String s) {
+	public int centerX(Graphics2D g2, String s) {
 		int length = (int)g2.getFontMetrics().getStringBounds(s, g2).getWidth();
-		int x = panel.getScreenWidth()/2 - length/2;
-		return x;
+		return panel.getScreenWidth()/2 - length/2;
 	}
 
 	public Panel getPanel() {
