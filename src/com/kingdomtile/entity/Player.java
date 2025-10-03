@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import com.kingdomtile.main.Input;
 import com.kingdomtile.main.Panel;
 import com.kingdomtile.objects.Chest;
+import com.kingdomtile.objects.Coin;
 import com.kingdomtile.objects.Door;
 import com.kingdomtile.objects.Key;
 import com.kingdomtile.objects.SuperObject;
@@ -27,6 +28,7 @@ public class Player extends Entity {
 	private final int screenY;
 	private int livesCounter = 4;
 	private int keyCounter = 0;
+	private int coinCounter = 0;
 	private boolean isSwordHeld = false;
 	private final static Logger log = LoggerFactory.getLogger(Player.class);
 
@@ -196,28 +198,40 @@ public class Player extends Entity {
 	    if (i != 999) {
 	    	SuperObject obj = panel.getObject()[i];
 	    	
-	    	if (obj instanceof Chest) {
+	    	if(obj instanceof Chest) {
 	    		if(key.isEJustPressed()) {
 	    			Chest chest = (Chest) obj;
 		    	    chest.toggle();
+		    	    return;
 	    		}
-	    	} else if (obj instanceof Door) {
+	    	} else if(obj instanceof Door) {
 	    		if(key.isEJustPressed()) {
 	    			Door door = (Door) obj;
 	    			door.toggle();
+	    			return;
 	    		}
-	    	} else if (obj instanceof Sword) {
+	    	} else if(obj instanceof Sword) {
 	    		Sword sword = (Sword) obj;
 	    		sword.equip();
-	    		panel.getObject()[i] = null;
+	    		nullifyObject(i);
+	    		
+	    	} else if(obj instanceof Coin) {
+	    		Coin coin = (Coin) obj;
+	    		coin.toggle();
+	    		nullifyObject(i);
+	    		
 	    	} else if (obj != null){
 	    		if(obj instanceof Key) {
 	    			keyCounter++;
 	    		}
 	    		panel.playFX(0);
-	    		panel.getObject()[i] = null;
+	    		nullifyObject(i);
 	    	}	    	
 	    }
+	}
+	
+	public void nullifyObject(int i) {
+		panel.getObject()[i] = null;
 	}
 
 	public BufferedImage getImage() {
@@ -270,6 +284,14 @@ public class Player extends Entity {
 
 	public void setKeyCounter(int keyCounter) {
 		this.keyCounter = keyCounter;
+	}
+	
+	public int getCoinCounter() {
+		return coinCounter;
+	}
+
+	public void setCoinCounter(int coinCounter) {
+		this.coinCounter = coinCounter;
 	}
 
 	public boolean isSwordHeld() {

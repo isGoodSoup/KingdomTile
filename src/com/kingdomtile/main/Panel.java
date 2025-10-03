@@ -153,7 +153,7 @@ public class Panel extends JPanel implements Runnable {
 	}
 	
 	public void setGameObjects() {
-		asset.setObject();
+		asset.setUpObjects();
 	}
 	
 	public AssetManager getAsset() {

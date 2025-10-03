@@ -24,6 +24,7 @@ public class Chest extends SuperObject {
 		collision = true;
 	}
 	
+	@Override
 	public void toggle() {
 		if(image == chest2) return;
 		panel.playFX(0);

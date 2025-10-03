@@ -4,9 +4,10 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
+import com.kingdomtile.interfaces.Interactable;
 import com.kingdomtile.main.Panel;
 
-public class SuperObject {
+public abstract class SuperObject implements Interactable {
 	protected String name;
 	protected boolean collision = false;
 	protected BufferedImage image;

@@ -6,19 +6,25 @@ import javax.imageio.ImageIO;
 
 import com.kingdomtile.main.Panel;
 
-public class Shield extends SuperObject {
+public class Coin extends SuperObject {
 	private Panel panel;
 	
-	public Shield(Panel panel) {
-		this.setPanel(panel);
-		setName("Shield");
+	public Coin(Panel panel) {
+		this.panel = panel;
+		setName("Coin");
 		
 		try {
-			image = ImageIO.read(getClass().getResourceAsStream("/com/kingdomtile/objects/shield.png"));
+			image = ImageIO.read(getClass().getResourceAsStream("/com/kingdomtile/objects/coin.png"));
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
 		collision = true;
+	}
+	
+	@Override
+	public void toggle() {
+		panel.playFX(2);
+		panel.getPlayer().setCoinCounter(panel.getPlayer().getCoinCounter() + 1);
 	}
 
 	public Panel getPanel() {
@@ -28,7 +34,4 @@ public class Shield extends SuperObject {
 	public void setPanel(Panel panel) {
 		this.panel = panel;
 	}
-
-	@Override
-	public void toggle() { return; }
 }

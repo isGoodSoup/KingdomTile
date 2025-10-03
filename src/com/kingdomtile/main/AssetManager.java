@@ -1,50 +1,36 @@
 package com.kingdomtile.main;
 
 import com.kingdomtile.objects.Chest;
+import com.kingdomtile.objects.Coin;
 import com.kingdomtile.objects.Door;
 import com.kingdomtile.objects.Key;
 import com.kingdomtile.objects.Shield;
+import com.kingdomtile.objects.SuperObject;
 import com.kingdomtile.objects.Sword;
 
 public class AssetManager {
 	private Panel panel;
-	private int chestX;
-	private int chestY;
 	
 	public AssetManager(Panel panel) {
 		super();
 		this.panel = panel;
 	}
+	
+	public void setUpObjects() {
+        addObject(0, new Chest(panel), 23, 8);
+        addObject(1, new Door(panel, panel.getPlayer()), 31, 32);
+        addObject(2, new Shield(panel), 40, 13);
+        addObject(3, new Chest(panel), 31, 28);
+        addObject(4, new Key(panel), 17, 13);
+        addObject(5, new Sword(panel), 15, 27);
+        addObject(6, new Coin(panel), 27, 10);
+        addObject(7, new Coin(panel), 33, 39);
+        addObject(8, new Coin(panel), 6, 27);
+    }
 
-	public void setObject() {
-		chestX = 23; chestY = 8;
-		panel.getObject()[0] = new Chest(panel);
-		panel.getObject()[0].setWorldX(chestX * panel.getTileSize());
-		panel.getObject()[0].setWorldY(chestY * panel.getTileSize());
-		
-		panel.getObject()[1] = new Door(panel, panel.getPlayer());
-		panel.getObject()[1].setWorldX(31 * panel.getTileSize());
-		panel.getObject()[1].setWorldY(32 * panel.getTileSize());
-		
-//		panel.getObject()[2] = new Shield(panel);
-//		panel.getObject()[2].setWorldX(chestX * panel.getTileSize());
-//		panel.getObject()[2].setWorldY(chestY * panel.getTileSize());
-		
-		panel.getObject()[3] = new Shield(panel);
-		panel.getObject()[3].setWorldX(40 * panel.getTileSize());
-		panel.getObject()[3].setWorldY(13 * panel.getTileSize());
-		
-		chestX = 31; chestY = 28;
-		panel.getObject()[4] = new Chest(panel);
-		panel.getObject()[4].setWorldX(chestX * panel.getTileSize());
-		panel.getObject()[4].setWorldY(chestY * panel.getTileSize());
-		
-		panel.getObject()[5] = new Key(panel);
-		panel.getObject()[5].setWorldX(17 * panel.getTileSize());
-		panel.getObject()[5].setWorldY(13 * panel.getTileSize());
-		
-		panel.getObject()[6] = new Sword(panel);
-		panel.getObject()[6].setWorldX(15 * panel.getTileSize());
-		panel.getObject()[6].setWorldY(27 * panel.getTileSize());
-	}
+	private void addObject(int i, SuperObject obj, int x, int y) {
+        obj.setWorldX(x * panel.getTileSize());
+        obj.setWorldY(y * panel.getTileSize());
+        panel.getObject()[i] = obj;
+    }
 }

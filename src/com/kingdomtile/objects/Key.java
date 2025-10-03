@@ -28,4 +28,7 @@ public class Key extends SuperObject {
 	public void setPanel(Panel panel) {
 		this.panel = panel;
 	}
+
+	@Override
+	public void toggle() { return; }
 }
