@@ -35,13 +35,15 @@ public class Panel extends JPanel implements Runnable {
 	private final int worldHeight = tileSize * maxScreenRow;
 	
 	// FPS
+	private TileManager tileM = new TileManager(this);
 	private volatile boolean paused = false;
 	private int fps = 60;
 	private long currentTime;
 	private double drawInterval = 1000000000 / fps;
 	private double lastTime;
 	private double delta = 0;
-	private TileManager tileM = new TileManager(this);
+	private CRT crt = new CRT(getScreenWidth(), getScreenHeight());
+	
 	
 	// Core
 	private Thread gameThread;
@@ -73,6 +75,7 @@ public class Panel extends JPanel implements Runnable {
 			if (key.isEscapeJustPressed()) {
 	            paused = !paused;
 	            key.update();
+	            getGUI().pauseScreen();
 	        }
 			
 			if (paused) {
@@ -101,35 +104,39 @@ public class Panel extends JPanel implements Runnable {
 		player.update();
 	}
 	
+	@Override
 	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		Graphics2D g2 = (Graphics2D)g;
-		
-		offsetX = (getWidth() - getScreenWidth()) / 2;
-		offsetY = (getHeight() - getScreenHeight()) / 2;
-		
-		g2.setClip(offsetX, offsetY, getScreenWidth(), getScreenHeight());
-		g2.translate(offsetX, offsetY);
-		
-		tileM.draw(g2);
-		for (int i = 0; i < object.length; i++) {
-			if(object[i] != null) {
-				object[i].draw(g2, this);
-			}
-		}
-		GUI.draw(g2);
-		if(getPlayer().isSwordHeld()) {
-			if(getPlayer().getLastDirection().equals("right") || getPlayer().getLastDirection().equals("down") ) {
-				player.draw(g2);
-				sword.draw(g2); 
-			} else {
-				sword.draw(g2); 
-				player.draw(g2);
-			}
-		} else {
-			player.draw(g2);
-		}
-		g2.dispose();
+	    super.paintComponent(g);
+	    Graphics2D crtG = crt.getBufferedGraphics();
+	    crtG.setColor(Color.BLACK);
+	    crtG.fillRect(0, 0, getScreenWidth(), getScreenHeight());
+
+	    tileM.draw(crtG);
+	    for (int i = 0; i < object.length; i++) {
+	        if (object[i] != null) {
+	            object[i].draw(crtG, this);
+	        }
+	    }
+	    GUI.draw(crtG);
+
+	    if (getPlayer().isSwordHeld()) {
+	        if (getPlayer().getLastDirection().equals("right") || getPlayer().getLastDirection().equals("down")) {
+	            player.draw(crtG);
+	            sword.draw(crtG);
+	        } else {
+	            sword.draw(crtG);
+	            player.draw(crtG);
+	        }
+	    } else {
+	        player.draw(crtG);
+	    }
+	    crtG.dispose();
+
+	    offsetX = (getWidth() - getScreenWidth())/2;
+	    offsetY = (getHeight() - getScreenHeight())/2;
+
+	    Graphics2D g2 = (Graphics2D) g;
+	    crt.render(g2, offsetX, offsetY);
 	}
 	
 	public void startGameThread() {
@@ -152,6 +159,10 @@ public class Panel extends JPanel implements Runnable {
 
 	public UI getGUI() {
 		return GUI;
+	}
+
+	public boolean isPaused() {
+		return paused;
 	}
 
 	public int getScale() {
@@ -225,6 +236,10 @@ public class Panel extends JPanel implements Runnable {
 
 	public TileManager getTileM() {
 		return tileM;
+	}
+
+	public Input getKey() {
+		return key;
 	}
 
 	public SuperObject[] getObject() {
