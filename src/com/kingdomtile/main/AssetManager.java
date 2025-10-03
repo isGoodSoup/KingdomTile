@@ -32,7 +32,7 @@ public class AssetManager {
 		
 		panel.getObject()[3] = new Shield(panel);
 		panel.getObject()[3].setWorldX(40 * panel.getTileSize());
-		panel.getObject()[3].setWorldY(9 * panel.getTileSize());
+		panel.getObject()[3].setWorldY(13 * panel.getTileSize());
 		
 		chestX = 31; chestY = 28;
 		panel.getObject()[4] = new Chest(panel);

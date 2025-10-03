@@ -33,38 +33,44 @@ public class TileManager extends Tile {
 	public TileManager(Panel panel) {
 		super();
 		this.panel = panel;
-		tile = new Tile[20];
+		tile = new Tile[100];
 		mapTile = new int[panel.getMaxWorldCol()][panel.getMaxWorldRow()];
 		getTileImage();
 		loadMap("/com/kingdomtile/maps/worldmap.txt");
 	}
 	
 	public void getTileImage() {
-		setTileImage(0, "/com/kingdomtile/tile/grass_01.png", false);
-		setTileImage(1, "/com/kingdomtile/tile/stone.png", true);
-		setTileImage(2, "/com/kingdomtile/tile/water_01.png", true);
-		setTileImage(3, "/com/kingdomtile/tile/dirt.png", false);
-		setTileImage(4, "/com/kingdomtile/tile/tree.png", true);
-		setTileImage(5, "/com/kingdomtile/tile/sand.png", false);
-		setTileImage(6, "/com/kingdomtile/tile/grass_02.png", false);
-		setTileImage(7, "/com/kingdomtile/tile/wood.png", false);
-		setTileImage(8, "/com/kingdomtile/tile/water_02.png", true);
-		setTileImage(9, "/com/kingdomtile/tile/water_03.png", true);
-		setTileImage(10, "/com/kingdomtile/tile/water_04.png", true);
-		setTileImage(11, "/com/kingdomtile/tile/water_05.png", true);
-		setTileImage(12, "/com/kingdomtile/tile/water_06.png", true);
-		setTileImage(13, "/com/kingdomtile/tile/water_07.png", true);
-		setTileImage(14, "/com/kingdomtile/tile/water_08.png", true);
-		setTileImage(15, "/com/kingdomtile/tile/water_09.png", true);
-		setTileImage(16, "/com/kingdomtile/tile/water_10.png", true);
-		setTileImage(17, "/com/kingdomtile/tile/water_11.png", true);
-		setTileImage(18, "/com/kingdomtile/tile/water_12.png", true);
+		setTileImage(0, "grass_01.png", false);
+		setTileImage(1, "stone.png", true);
+		setTileImage(2, "water_01.png", true);
+		setTileImage(3, "dirt.png", false);
+		setTileImage(4, "tree.png", true);
+		setTileImage(5, "sand.png", false);
+		setTileImage(6, "grass_02.png", false);
+		setTileImage(7, "wood.png", false);
+		setTileImage(8, "water_02.png", true);
+		setTileImage(9, "water_03.png", true);
+		setTileImage(10, "water_04.png", true);
+		setTileImage(11, "water_05.png", true);
+		setTileImage(12, "water_06.png", true);
+		setTileImage(13, "water_07.png", true);
+		setTileImage(14, "water_08.png", true);
+		setTileImage(15, "water_09.png", true);
+		setTileImage(16, "water_10.png", true);
+		setTileImage(17, "water_11.png", true);
+		setTileImage(18, "water_12.png", true);
+		setTileImage(19, "water_13.png", true);
+		setTileImage(20, "water_14.png", true);
+		setTileImage(21, "water_15.png", true);
+		setTileImage(22, "water_16.png", true);
+		setTileImage(23, "water_17.png", true);
+		setTileImage(24, "water_18.png", true);
 	}
 	
 	public void setTileImage(int i, String source, boolean isCollision) {
 		try {
 			tile[i] = new Tile();
-			tile[i].image = ImageIO.read(getClass().getResourceAsStream(source));
+			tile[i].image = ImageIO.read(getClass().getResourceAsStream("/com/kingdomtile/tile/" + source));
 			if(isCollision) tile[i].collision = true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -72,32 +78,55 @@ public class TileManager extends Tile {
 	}
 	
 	public void loadMap(String map) {
-		try {
-			s = getClass().getResourceAsStream(map);
-			b = new BufferedReader(new InputStreamReader(s));
-			col = 0;
-			row = 0;
-			
-			while(col < panel.getMaxWorldCol() && row < panel.getMaxWorldRow()) {
-				line = b.readLine();
-				
-				while(col < panel.getMaxWorldCol()) {
-					numbers = line.split(" ");
-					num = Integer.parseInt(numbers[col]);
-					mapTile[col][row] = num;
-					col++;
-				}
-				
-				if(col == panel.getMaxWorldCol()) {
-					col = 0;
-					row++;
-				}
-			}
-			b.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	    try {
+	        s = getClass().getResourceAsStream(map);
+	        if (s == null) {
+	            System.err.println("Map file not found: " + map);
+	            return;
+	        }
+
+	        b = new BufferedReader(new InputStreamReader(s));
+	        col = 0;
+	        row = 0;
+
+	        while (row < panel.getMaxWorldRow()) {
+	            line = b.readLine();
+	            if (line == null) {
+	                System.err.println("Map file ended early at row " + row);
+	                break;
+	            }
+
+	            numbers = line.split(" ");
+	            col = 0;
+
+	            while (col < panel.getMaxWorldCol()) {
+	                if (col < numbers.length) {
+	                    try {
+	                        num = Integer.parseInt(numbers[col]);
+	                        if (num >= tile.length || tile[num] == null) {
+	                            System.err.println("Invalid tile index at " + col + "," + row + ": " + num + ". Defaulting to 0.");
+	                            num = 0;
+	                        }
+	                        mapTile[col][row] = num;
+	                    } catch (NumberFormatException e) {
+	                        System.err.println("Invalid number at " + col + "," + row + ": " + numbers[col] + ". Defaulting to 0.");
+	                        mapTile[col][row] = 0;
+	                    }
+	                } else {
+	                    mapTile[col][row] = 0;
+	                }
+	                col++;
+	            }
+
+	            row++;
+	        }
+
+	        b.close();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
 	}
+
 	
 	public void draw(Graphics2D g) {
 		worldCol = 0;
