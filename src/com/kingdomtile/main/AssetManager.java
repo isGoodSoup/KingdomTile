@@ -3,10 +3,12 @@ package com.kingdomtile.main;
 import com.kingdomtile.objects.Chest;
 import com.kingdomtile.objects.Coin;
 import com.kingdomtile.objects.Door;
+import com.kingdomtile.objects.Dungeon;
 import com.kingdomtile.objects.Key;
 import com.kingdomtile.objects.Shield;
 import com.kingdomtile.objects.SuperObject;
 import com.kingdomtile.objects.Sword;
+import com.kingdomtile.objects.Well;
 
 public class AssetManager {
 	private Panel panel;
@@ -23,10 +25,12 @@ public class AssetManager {
         addObject(3, new Chest(panel), 31, 28);
         addObject(4, new Key(panel), 17, 13);
         addObject(5, new Sword(panel), 15, 27);
-        addObject(6, new Coin(panel), 27, 10);
-        addObject(7, new Coin(panel), 33, 39);
-        addObject(8, new Coin(panel), 6, 27);
-        addObject(9, new Coin(panel), 31, 24);
+        addObject(6, new Well(panel), 38, 10);
+        addObject(7, new Coin(panel), 27, 10);
+        addObject(8, new Coin(panel), 33, 39);
+        addObject(9, new Coin(panel), 6, 27);
+        addObject(10, new Coin(panel), 31, 24);
+        addObject(11, new Dungeon(panel, panel.getPlayer()), 31, 16);
     }
 
 	private void addObject(int i, SuperObject obj, int x, int y) {

@@ -55,7 +55,7 @@ public class Panel extends JPanel implements Runnable {
 	private Sound sound = new Sound();
 	private Player player = new Player(this, key);
 	private UI GUI = new UI(this);
-	private SuperObject object[] = new SuperObject[10];
+	private SuperObject object[] = new SuperObject[20];
 	private final static Logger log = LoggerFactory.getLogger(Panel.class);
 	
 	// Items
