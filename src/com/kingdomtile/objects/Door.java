@@ -27,18 +27,6 @@ public class Door extends SuperObject {
 		collision = true;
 	}
 	
-	public void toggle() {
-		if(image == door2) return;
-		if(player.getKeyCounter() == 1) {
-			panel.playFX(1);
-			image = door2;
-			collision = false;
-			player.setKeyCounter(0);
-		} else {
-			return;
-		}
-    }
-	
 	public Door(String material) {
 		super();
 		this.material = material;
@@ -58,5 +46,23 @@ public class Door extends SuperObject {
 
 	public void setPanel(Panel panel) {
 		this.panel = panel;
+	}
+	
+	@Override
+	public void toggle() {
+		if(image == door2) return;
+		if(player.getKeyCounter() == 1) {
+			panel.playFX(1);
+			image = door2;
+			collision = false;
+			player.setKeyCounter(0);
+		} else {
+			return;
+		}
+    }
+
+	@Override
+	public void onPickup(Player player, int index) {
+		if (panel.getKey().isEJustPressed()) toggle();
 	}
 }

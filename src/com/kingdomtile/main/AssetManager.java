@@ -26,6 +26,7 @@ public class AssetManager {
         addObject(6, new Coin(panel), 27, 10);
         addObject(7, new Coin(panel), 33, 39);
         addObject(8, new Coin(panel), 6, 27);
+        addObject(9, new Coin(panel), 31, 24);
     }
 
 	private void addObject(int i, SuperObject obj, int x, int y) {

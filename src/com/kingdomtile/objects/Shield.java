@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import com.kingdomtile.entity.Player;
 import com.kingdomtile.main.Panel;
 
 public class Shield extends SuperObject {
@@ -31,4 +32,7 @@ public class Shield extends SuperObject {
 
 	@Override
 	public void toggle() { return; }
+
+	@Override
+	public void onPickup(Player player, int index) { return; }
 }

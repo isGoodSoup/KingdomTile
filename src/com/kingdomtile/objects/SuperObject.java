@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
+import com.kingdomtile.entity.Player;
 import com.kingdomtile.interfaces.Interactable;
 import com.kingdomtile.main.Panel;
 
@@ -46,6 +47,8 @@ public abstract class SuperObject implements Interactable {
 			g2.drawImage(image, screenX, screenY, panel.getTileSize(), panel.getTileSize(), null);
 		}
 	}
+	
+	public abstract void onPickup(Player player, int index);
 
 	public String getName() {
 		return name;

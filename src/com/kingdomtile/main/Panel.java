@@ -248,7 +248,7 @@ public class Panel extends JPanel implements Runnable {
 	public Input getKey() {
 		return key;
 	}
-
+	
 	public SuperObject[] getObject() {
 		return object;
 	}

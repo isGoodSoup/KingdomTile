@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import com.kingdomtile.entity.Player;
 import com.kingdomtile.main.Panel;
 
 public class Chest extends SuperObject {
@@ -23,13 +24,6 @@ public class Chest extends SuperObject {
 		image = chest1;
 		collision = true;
 	}
-	
-	@Override
-	public void toggle() {
-		if(image == chest2) return;
-		panel.playFX(0);
-		image = chest2;
-    }
 
 	public Chest(String material, String name) {
 		super();
@@ -43,5 +37,17 @@ public class Chest extends SuperObject {
 
 	public void setMaterial(String material) {
 		this.material = material;
+	}
+	
+	@Override
+	public void toggle() {
+		if(image == chest2) return;
+		panel.playFX(0);
+		image = chest2;
+    }
+	
+	@Override
+	public void onPickup(Player player, int index) {
+		if (panel.getKey().isEJustPressed()) toggle();
 	}
 }

@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import com.kingdomtile.entity.Player;
 import com.kingdomtile.main.Panel;
 
 public class Key extends SuperObject {
@@ -31,4 +32,11 @@ public class Key extends SuperObject {
 
 	@Override
 	public void toggle() { return; }
+
+	@Override
+	public void onPickup(Player player, int index) {
+		 player.setKeyCounter(player.getKeyCounter() + 1);
+		 panel.playFX(0);
+		 player.nullifyObject(index);
+	}
 }

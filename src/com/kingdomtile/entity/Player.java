@@ -11,12 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import com.kingdomtile.main.Input;
 import com.kingdomtile.main.Panel;
-import com.kingdomtile.objects.Chest;
-import com.kingdomtile.objects.Coin;
-import com.kingdomtile.objects.Door;
-import com.kingdomtile.objects.Key;
 import com.kingdomtile.objects.SuperObject;
-import com.kingdomtile.objects.Sword;
 
 public class Player extends Entity {
 	private Panel panel;
@@ -195,39 +190,9 @@ public class Player extends Entity {
 	}
 	
 	public void pickUp(int i) {
-	    if (i != 999) {
-	    	SuperObject obj = panel.getObject()[i];
-	    	
-	    	if(obj instanceof Chest) {
-	    		if(key.isEJustPressed()) {
-	    			Chest chest = (Chest) obj;
-		    	    chest.toggle();
-		    	    return;
-	    		}
-	    	} else if(obj instanceof Door) {
-	    		if(key.isEJustPressed()) {
-	    			Door door = (Door) obj;
-	    			door.toggle();
-	    			return;
-	    		}
-	    	} else if(obj instanceof Sword) {
-	    		Sword sword = (Sword) obj;
-	    		sword.equip();
-	    		nullifyObject(i);
-	    		
-	    	} else if(obj instanceof Coin) {
-	    		Coin coin = (Coin) obj;
-	    		coin.toggle();
-	    		nullifyObject(i);
-	    		
-	    	} else if (obj != null){
-	    		if(obj instanceof Key) {
-	    			keyCounter++;
-	    		}
-	    		panel.playFX(0);
-	    		nullifyObject(i);
-	    	}	    	
-	    }
+	    if (i == 999) return;
+	    SuperObject obj = panel.getObject()[i];
+	    if (obj != null) obj.onPickup(this, i);
 	}
 	
 	public void nullifyObject(int i) {

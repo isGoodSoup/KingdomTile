@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import com.kingdomtile.entity.Player;
 import com.kingdomtile.main.Panel;
 
 public class Sword extends SuperObject {
@@ -75,4 +76,10 @@ public class Sword extends SuperObject {
 
 	@Override
 	public void toggle() { return; }
+
+	@Override
+	public void onPickup(Player player, int index) {
+		equip();
+        player.nullifyObject(index);
+	}
 }
