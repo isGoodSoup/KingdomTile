@@ -7,6 +7,9 @@ import java.io.InputStreamReader;
 
 import javax.imageio.ImageIO;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.kingdomtile.main.Panel;
 
 public class TileManager extends Tile {
@@ -14,6 +17,7 @@ public class TileManager extends Tile {
 	private Tile[] tile;
 	private int col;
 	private int row;
+	
 	// World Position
 	private int worldCol;
 	private int worldRow;
@@ -21,6 +25,7 @@ public class TileManager extends Tile {
 	private int worldY;
 	private int screenX;
 	private int screenY;
+	
 	// Map Settings
 	private int mapTile[][];
 	private int tileNum;
@@ -29,6 +34,8 @@ public class TileManager extends Tile {
 	private String line;
 	private String[] numbers;
 	private int num;
+	
+	private static final Logger log = LoggerFactory.getLogger(TileManager.class);
 	
 	public TileManager(Panel panel) {
 		super();
@@ -81,7 +88,7 @@ public class TileManager extends Tile {
 	    try {
 	        s = getClass().getResourceAsStream(map);
 	        if (s == null) {
-	            System.err.println("Map file not found: " + map);
+	            log.error("Map file not found: " + map);
 	            return;
 	        }
 
@@ -92,7 +99,7 @@ public class TileManager extends Tile {
 	        while (row < panel.getMaxWorldRow()) {
 	            line = b.readLine();
 	            if (line == null) {
-	                System.err.println("Map file ended early at row " + row);
+	                log.error("Map file ended early at row " + row);
 	                break;
 	            }
 
@@ -104,12 +111,12 @@ public class TileManager extends Tile {
 	                    try {
 	                        num = Integer.parseInt(numbers[col]);
 	                        if (num >= tile.length || tile[num] == null) {
-	                            System.err.println("Invalid tile index at " + col + "," + row + ": " + num + ". Defaulting to 0.");
+	                            log.error("Invalid tile index at " + col + "," + row + ": " + num + ". Defaulting to 0.");
 	                            num = 0;
 	                        }
 	                        mapTile[col][row] = num;
 	                    } catch (NumberFormatException e) {
-	                        System.err.println("Invalid number at " + col + "," + row + ": " + numbers[col] + ". Defaulting to 0.");
+	                        log.error("Invalid number at " + col + "," + row + ": " + numbers[col] + ". Defaulting to 0.");
 	                        mapTile[col][row] = 0;
 	                    }
 	                } else {
