@@ -73,32 +73,33 @@ public class Panel extends JPanel implements Runnable {
 	
 	@Override
 	public void run() {
-		while (gameThread != null) {
-			if (key.isEscapeJustPressed()) {
+		lastTime = System.nanoTime();
+	    while (gameThread != null) {
+	        currentTime = System.nanoTime();
+	        delta += (currentTime - lastTime) / drawInterval;
+	        lastTime = currentTime;
+
+	        if (key.isEscapeJustPressed()) {
 	            paused = !paused;
-	            key.update();
 	        }
-			
-			if (paused) {
-	            try {
-	                Thread.sleep(100);
-	                continue;
-	            } catch (InterruptedException e) {
-	                Thread.currentThread().interrupt();
+
+	        repaint();
+
+	        if (!paused) {
+	            if (delta >= 1) {
+	                update();
+	                delta--;
 	            }
 	        }
-			
-			currentTime = System.nanoTime();
-			delta += (currentTime - lastTime) / drawInterval;
-			lastTime = currentTime;
-			
-			if(delta >= 1) {
-				update();
-				repaint();
-				key.update();
-				delta--;
-			}
-		}
+
+	        key.update();
+
+	        try {
+	            Thread.sleep(1);
+	        } catch (InterruptedException e) {
+	            Thread.currentThread().interrupt();
+	        }
+	    }
 	}
 		
 	public void update() {
@@ -108,17 +109,21 @@ public class Panel extends JPanel implements Runnable {
 	@Override
 	public void paintComponent(Graphics g) {
 	    super.paintComponent(g);
+
 	    crtG = crt.getBufferedGraphics();
+
 	    crtG.setColor(Color.BLACK);
-	    crtG.fillRect(0, 0, getScreenWidth(), getScreenHeight());
+	    crtG.fillRect(0, 0, crt.getWidth(), crt.getHeight());
 
 	    tileM.draw(crtG);
+
 	    for (SuperObject obj : object) {
 	        if (obj != null) obj.draw(crtG, this);
 	    }
 
-	    if (getPlayer().isSwordHeld()) {
-	        if (getPlayer().getLastDirection().equals("right") || getPlayer().getLastDirection().equals("down")) {
+	    if (player.isSwordHeld()) {
+	        String dir = player.getLastDirection();
+	        if ("right".equals(dir) || "down".equals(dir)) {
 	            player.draw(crtG);
 	            sword.draw(crtG);
 	        } else {
@@ -128,15 +133,17 @@ public class Panel extends JPanel implements Runnable {
 	    } else {
 	        player.draw(crtG);
 	    }
-	    GUI.draw(crtG);
-	    if(paused) {
-	    	GUI.pauseScreen(crtG);
-	    }
-	    
-	    crtG.dispose();
 
-	    offsetX = (getWidth() - getScreenWidth())/2;
-	    offsetY = (getHeight() - getScreenHeight())/2;
+	    GUI.draw(crtG);
+
+	    if (paused) {
+	        crtG.setColor(new Color(0, 0, 0, 150));
+	        crtG.fillRect(0, 0, crt.getWidth(), crt.getHeight());
+	        GUI.pauseScreen(crtG);
+	    }
+
+	    offsetX = (getWidth() - crt.getWidth()) / 2;
+	    offsetY = (getHeight() - crt.getHeight()) / 2;
 
 	    Graphics2D g2 = (Graphics2D) g;
 	    crt.render(g2, offsetX, offsetY);

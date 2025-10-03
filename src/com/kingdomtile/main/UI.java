@@ -20,7 +20,7 @@ public class UI {
 	private int textX, textY;
 	private int iconWidth = 64;
 	private int iconHeight = iconWidth;
-	private String pause = "PAUSE MENU";
+	private String pause = "PAUSE";
 	
 	public UI(Panel panel) {
 		this.panel = panel;
@@ -42,13 +42,13 @@ public class UI {
 		textY = iconY + iconHeight/2 + g2.getFontMetrics().getAscent()/2;
 		
 		Font hudFont = new Font("Arial", Font.BOLD, 25);
-		
 		g2.setFont(setFont(hudFont));
-		g2.setColor(Color.black);
+		g2.setColor(Color.white);
 		playerX = panel.getPlayer().getX()/panel.getTileSize();
 		playerY = panel.getPlayer().getY()/panel.getTileSize() + 1;
 		g2.drawString("x: " + playerX + " y: " + playerY, iconX, textY + 570);
 		g2.drawImage(icon, iconX, iconY, iconWidth, iconHeight, panel);
+		
 		for (int i = 0; i < panel.getPlayer().getLivesCounter(); i++) {
 			g2.drawImage(lives, textX + i * 50, iconY, iconWidth, iconHeight, panel);
 		}
