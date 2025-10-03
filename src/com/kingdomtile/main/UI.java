@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 
 public class UI {
 	private BufferedImage image;
+	private BufferedImage icon, lives;
 	private Panel panel;
 	private Font font;
 	private int playerX;
@@ -29,14 +30,15 @@ public class UI {
 	public void getIcon() {
 		try {
 			String defaultPath = "/com/kingdomtile/ui/";
-			image = ImageIO.read(getClass().getResourceAsStream(defaultPath + "icon.png"));
+			icon = ImageIO.read(getClass().getResourceAsStream(defaultPath + "icon.png"));
+			lives = ImageIO.read(getClass().getResourceAsStream(defaultPath + "lives.png"));
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	public void draw(Graphics2D g2) {
-		textX = iconX + iconWidth + 20;
+		textX = iconX + iconWidth + 10;
 		textY = iconY + iconHeight/2 + g2.getFontMetrics().getAscent()/2;
 		
 		Font hudFont = new Font("Arial", Font.BOLD, 25);
@@ -45,8 +47,11 @@ public class UI {
 		g2.setColor(Color.black);
 		playerX = panel.getPlayer().getX()/panel.getTileSize();
 		playerY = panel.getPlayer().getY()/panel.getTileSize() + 1;
-		g2.drawString("x: " + playerX + " y: " + playerY, textX, textY);
-		g2.drawImage(image, iconX, iconY, iconWidth, iconHeight, panel);
+		g2.drawString("x: " + playerX + " y: " + playerY, iconX, textY + 570);
+		g2.drawImage(icon, iconX, iconY, iconWidth, iconHeight, panel);
+		for (int i = 0; i < panel.getPlayer().getLivesCounter(); i++) {
+			g2.drawImage(lives, textX + i * 50, iconY, iconWidth, iconHeight, panel);
+		}
 	}
 	
 	public void pauseScreen(Graphics2D g2) {
