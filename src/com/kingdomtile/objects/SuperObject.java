@@ -13,7 +13,7 @@ public abstract class SuperObject implements Interactable {
 	protected boolean collision = false;
 	protected BufferedImage image;
 	protected BufferedImage chest1, chest2, door1, door2;
-	protected BufferedImage sword1, sword2;
+	protected BufferedImage sword1, sword2, sword3, sword4;
 	
 	protected int worldX, worldY;
 	protected int screenX, screenY;

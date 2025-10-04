@@ -2,105 +2,97 @@ package com.kingdomtile.objects;
 
 import java.awt.Graphics2D;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 
 import com.kingdomtile.entity.Player;
 import com.kingdomtile.main.Panel;
 
 public class Sword extends SuperObject {
-	private Panel panel;
-	private boolean attacking = false;
-	private int attackTimer = 0;
-	private final int attackDuration = 15; // frames
-	private int attackAngle = 0;
-	
-	public Sword(Panel panel) {
-		this.panel = panel;
-		setName("Sword");
-		
-		try {
-			sword1 = ImageIO.read(getClass().getResourceAsStream("/com/kingdomtile/objects/sword_01.png"));
-			sword2 = ImageIO.read(getClass().getResourceAsStream("/com/kingdomtile/objects/sword_02.png"));
-		} catch(IOException e) {
-			e.printStackTrace();
-		}
-		image = sword1;
-		collision = true;
-	}
-	
-	public void equip() {
-		if(panel.getPlayer().isSwordHeld()) return;
-		panel.getPlayer().setSwordHeld(true);
-		panel.playFX(0);
-	}
-	
-	public void attack() {
-		if (!attacking) {
-	        attacking = true;
-	        attackTimer = 0;
-	    }
-	}
-	
-	public void draw(Graphics2D g2) {
-	    int x = panel.getPlayer().getScreenX();
-	    int y = panel.getPlayer().getScreenY();
-	    int size = panel.getTileSize();
-	    int offsetX = 40;
-	    int offsetY = 5;
+    private Panel panel;
+    private boolean isAttacking = false;
+    private int attackFrame = 0;
+    private final int attackLength = 10;
+    private final int thrustDistance = 30;
+    private int x, y, size, offsetX, offsetY;
 
-	    if(attacking){
-	        attackTimer++;
-	        attackAngle = (int)(Math.sin((attackTimer/(double)attackDuration)*Math.PI)*60);
-	        if(attackTimer >= attackDuration){
-	            attacking = false;
-	            attackAngle = 0;
-	        }
-	    }
+    public Sword(Panel panel) {
+        this.panel = panel;
+        setName("Sword");
 
-	    switch(panel.getPlayer().getLastDirection()){
-	        case "up":
-	            image = sword1;
-	            g2.rotate(Math.toRadians(-attackAngle), x+size/2, y+size/2);
-	            g2.drawImage(image, x+size/2, y, size, size, null);
-	            g2.rotate(Math.toRadians(attackAngle), x+size/2, y+size/2);
-	            break;
-	        case "down":
-	            image = sword2;
-	            g2.rotate(Math.toRadians(attackAngle), x+size/2, y+size/2);
-	            g2.drawImage(image, x-size/2, y, size, size, null);
-	            g2.rotate(Math.toRadians(-attackAngle), x+size/2, y+size/2);
-	            break;
-	        case "left":
-	            image = sword2;
-	            g2.rotate(Math.toRadians(-attackAngle), x+size/2, y+size/2);
-	            g2.drawImage(image, x-offsetX, y+offsetY-10, size, size, null);
-	            g2.rotate(Math.toRadians(attackAngle), x+size/2, y+size/2);
-	            break;
-	        case "right":
-	            image = sword1;
-	            g2.rotate(Math.toRadians(attackAngle), x+size/2, y+size/2);
-	            g2.drawImage(image, x+offsetX, y+offsetY, size, size, null);
-	            g2.rotate(Math.toRadians(-attackAngle), x+size/2, y+size/2);
-	            break;
-	    }
-	}
+        String defaultPath = "/com/kingdomtile/objects/";
+        try {
+            sword1 = ImageIO.read(getClass().getResourceAsStream(defaultPath + "sword_01.png"));
+            sword2 = ImageIO.read(getClass().getResourceAsStream(defaultPath + "sword_02.png"));
+            sword3 = ImageIO.read(getClass().getResourceAsStream(defaultPath + "sword_03.png"));
+            sword4 = ImageIO.read(getClass().getResourceAsStream(defaultPath + "sword_04.png"));
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
 
+        image = sword1;
+        collision = true;
+    }
 
-	public Panel getPanel() {
-		return panel;
-	}
+    public void equip() {
+        if(panel.getPlayer().isSwordHeld()) return;
+        panel.getPlayer().setSwordHeld(true);
+        panel.playFX(0);
+    }
 
-	public void setPanel(Panel panel) {
-		this.panel = panel;
-	}
+    public void attack() {
+        if (!isAttacking) {
+            isAttacking = true;
+            attackFrame = 0;
+        }
+    }
+    
+    public void update() {
+        if (isAttacking) {
+            attackFrame++;
+            if (attackFrame >= attackLength) {
+                isAttacking = false;
+            }
+        }
+    }
+    
+    public void draw(Graphics2D g2) {
+        Player p = panel.getPlayer();
+        x = p.getScreenX();
+        y = p.getScreenY();
+        offsetX = 20;
+        offsetY = 15;
+        size = panel.getTileSize();
 
-	@Override
-	public void toggle() { return; }
+        int thrustOffset = 0;
+        if (isAttacking) {
+            int mid = attackLength / 2;
+            thrustOffset = (attackFrame <= mid) ?
+                    (thrustDistance * attackFrame / mid) :
+                    (thrustDistance * (attackLength - attackFrame) / mid);
+        }
 
-	@Override
-	public void onPickup(Player player, int index) {
-		equip();
+        switch(p.getLastDirection()) {
+            case "up":
+                g2.drawImage(sword1, x + offsetX, y - offsetY - thrustOffset, size, size, null);
+                break;
+            case "down":
+                g2.drawImage(sword2, x - offsetX, y + offsetY + 10 + thrustOffset, size, size, null);
+                break;
+            case "left":
+                g2.drawImage(sword3, x - offsetX - thrustOffset, y + offsetY, size, size, null);
+                break;
+            case "right":
+                g2.drawImage(sword4, x + offsetX + thrustOffset, y + offsetY, size, size, null);
+                break;
+        }
+    }
+
+    @Override
+    public void toggle() {}
+
+    @Override
+    public void onPickup(Player player, int index) {
+        equip();
         player.nullifyObject(index);
-	}
+    }
 }

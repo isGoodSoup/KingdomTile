@@ -59,8 +59,6 @@ public class Panel extends JPanel implements Runnable {
 	private SuperObject object[] = new SuperObject[20];
 	private final static Logger log = LoggerFactory.getLogger(Panel.class);
 	
-	// Items
-	
 	public Panel() {
 		log.info("Session started");
 		this.setPreferredSize(new Dimension(getScreenWidth(), getScreenHeight()));
@@ -103,12 +101,18 @@ public class Panel extends JPanel implements Runnable {
 	}
 		
 	public void update() {
-		player.update();
-		
-		for (Entity ent : NPC) {
-	        if (ent != null) {
-	            ent.update();
-	        }
+	    player.update();
+
+	    if(player.isSwordHeld() && key.isSpacePressed()) {
+	        player.getSword().attack();
+	    }
+
+	    if(player.isSwordHeld() && player.getSword() != null) {
+	        player.getSword().update();
+	    }
+
+	    for (Entity ent : NPC) {
+	        if (ent != null) ent.update();
 	    }
 	}
 	
