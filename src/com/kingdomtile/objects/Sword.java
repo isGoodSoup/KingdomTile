@@ -65,10 +65,10 @@ public class Sword extends SuperObject {
 
         int thrustOffset = 0;
         if (isAttacking) {
-            int mid = attackLength / 2;
+            int mid = attackLength/2;
             thrustOffset = (attackFrame <= mid) ?
-                    (thrustDistance * attackFrame / mid) :
-                    (thrustDistance * (attackLength - attackFrame) / mid);
+                    (thrustDistance * attackFrame/mid) :
+                    (thrustDistance * (attackLength - attackFrame)/mid);
         }
 
         switch(p.getLastDirection()) {
