@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import com.kingdomtile.main.Input;
 import com.kingdomtile.main.Panel;
 import com.kingdomtile.objects.SuperObject;
+import com.kingdomtile.objects.Sword;
 
 public class Player extends Entity {
 	private Panel panel;
@@ -25,12 +26,14 @@ public class Player extends Entity {
 	private int keyCounter = 0;
 	private int coinCounter = 0;
 	private boolean isSwordHeld = false;
+	private Sword sword;
 	private final static Logger log = LoggerFactory.getLogger(Player.class);
 	
 	public Player(Panel panel, Input key) {
 		super(panel);
 		this.panel = panel;
 		this.key = key;
+		this.sword = new Sword(panel);
 		screenX = panel.getScreenHeight()/2 - (panel.getTileSize()/2);
 		screenY = panel.getScreenWidth()/2 - (panel.getTileSize()/2);
 		solidRectangle = new Rectangle(8, 16, 32, 32);
@@ -94,6 +97,10 @@ public class Player extends Entity {
 	        lastDirection = newDirection;
 	    } else {
 	        direction = "idle";
+	    }
+	    
+	    if(key.isSpacePressed() && isSwordHeld()) {
+	    	sword.attack();
 	    }
 	}
 	
@@ -267,6 +274,14 @@ public class Player extends Entity {
 
 	public void setCoinCounter(int coinCounter) {
 		this.coinCounter = coinCounter;
+	}
+	
+	public Sword getSword() {
+		return sword;
+	}
+
+	public void setSword(Sword sword) {
+		this.sword = sword;
 	}
 
 	public boolean isSwordHeld() {

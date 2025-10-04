@@ -14,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import com.kingdomtile.entity.Entity;
 import com.kingdomtile.entity.Player;
 import com.kingdomtile.objects.SuperObject;
-import com.kingdomtile.objects.Sword;
 import com.kingdomtile.tile.TileManager;
 
 public class Panel extends JPanel implements Runnable {
@@ -61,7 +60,6 @@ public class Panel extends JPanel implements Runnable {
 	private final static Logger log = LoggerFactory.getLogger(Panel.class);
 	
 	// Items
-	private Sword sword = new Sword(this);
 	
 	public Panel() {
 		log.info("Session started");
@@ -134,18 +132,19 @@ public class Panel extends JPanel implements Runnable {
 	    	if (ent != null) ent.draw(crtG);
 	    }
 	    
-	    String dir = player.getLastDirection();
-	    if (player.isSwordHeld()) {
-	        if ("right".equals(dir) || "down".equals(dir)) {
+	    if(player.isSwordHeld() && player.getSword() != null) {
+	        String dir = player.getLastDirection();
+	        if ("up".equals(dir) || "left".equals(dir)) {
+	            player.getSword().draw(crtG);
 	            player.draw(crtG);
-	            sword.draw(crtG);
 	        } else {
-	            sword.draw(crtG);
 	            player.draw(crtG);
+	            player.getSword().draw(crtG);
 	        }
 	    } else {
 	        player.draw(crtG);
 	    }
+
 	    GUI.draw(crtG);
 
 	    if (paused) {
@@ -161,49 +160,6 @@ public class Panel extends JPanel implements Runnable {
 	    g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
 	    crt.render(g2, offsetX, offsetY);
 	}
-
-//	@Override
-//	public void paintComponent(Graphics g) {
-//	    super.paintComponent(g);
-//
-//	    crtG = crt.getBufferedGraphics();
-//
-//	    crtG.setColor(Color.BLACK);
-//	    crtG.fillRect(0, 0, crt.getWidth(), crt.getHeight());
-//
-//	    tileM.draw(crtG);
-//
-//	    for (SuperObject obj : object) {
-//	        if (obj != null) obj.draw(crtG, this);
-//	    }
-//
-//	    if (player.isSwordHeld()) {
-//	        String dir = player.getLastDirection();
-//	        if ("right".equals(dir) || "down".equals(dir)) {
-//	            player.draw(crtG);
-//	            sword.draw(crtG);
-//	        } else {
-//	            sword.draw(crtG);
-//	            player.draw(crtG);
-//	        }
-//	    } else {
-//	        player.draw(crtG);
-//	    }
-//
-//	    GUI.draw(crtG);
-//
-//	    if (paused) {
-//	        crtG.setColor(new Color(0, 0, 0, 150));
-//	        crtG.fillRect(0, 0, crt.getWidth(), crt.getHeight());
-//	        GUI.pauseScreen(crtG);
-//	    }
-//
-//	    offsetX = (getWidth() - crt.getWidth()) / 2;
-//	    offsetY = (getHeight() - crt.getHeight()) / 2;
-//
-//	    Graphics2D g2 = (Graphics2D) g;
-//	    crt.render(g2, offsetX, offsetY);
-//	}
 	
 	public void startGameThread() {
 		gameThread = new Thread(this);

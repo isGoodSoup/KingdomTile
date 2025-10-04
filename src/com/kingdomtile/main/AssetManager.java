@@ -33,10 +33,11 @@ public class AssetManager {
         addObject(9, new Coin(panel), 6, 27);
         addObject(10, new Coin(panel), 31, 24);
         addObject(11, new Dungeon(panel, panel.getPlayer()), 31, 16);
+        addObject(12, new Chest(panel), 22, 43);
     }
 	
 	public void setUpNPC() {
-		addNPC(0, new OldMan(panel), 21, 21);
+		addNPC(0, new OldMan(panel), 27, 35);
 	}
 
 	private void addObject(int i, SuperObject obj, int x, int y) {
