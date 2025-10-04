@@ -21,7 +21,7 @@ public class Main {
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		panel.requestFocusInWindow();
-		panel.setGameObjects();
+		panel.setGameStart();
 		panel.startGameThread();
 	}
 }

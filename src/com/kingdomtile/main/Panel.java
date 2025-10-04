@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 
 import javax.swing.JPanel;
 
@@ -46,7 +47,6 @@ public class Panel extends JPanel implements Runnable {
 	
 	
 	// Core
-	private Graphics2D g2;
 	private Graphics2D crtG;
 	private Thread gameThread;
 	private Input key = new Input();
@@ -74,7 +74,6 @@ public class Panel extends JPanel implements Runnable {
 	@Override
 	public void run() {
 		lastTime = System.nanoTime();
-		playMusic(3);
 	    while (gameThread != null) {
 	        currentTime = System.nanoTime();
 	        delta += (currentTime - lastTime) / drawInterval;
@@ -112,18 +111,19 @@ public class Panel extends JPanel implements Runnable {
 	    super.paintComponent(g);
 
 	    crtG = crt.getBufferedGraphics();
-
 	    crtG.setColor(Color.BLACK);
 	    crtG.fillRect(0, 0, crt.getWidth(), crt.getHeight());
+
+	    crtG.setClip(0, 0, crt.getWidth(), crt.getHeight());
 
 	    tileM.draw(crtG);
 
 	    for (SuperObject obj : object) {
 	        if (obj != null) obj.draw(crtG, this);
 	    }
-
+	    
+	    String dir = player.getLastDirection();
 	    if (player.isSwordHeld()) {
-	        String dir = player.getLastDirection();
 	        if ("right".equals(dir) || "down".equals(dir)) {
 	            player.draw(crtG);
 	            sword.draw(crtG);
@@ -134,7 +134,6 @@ public class Panel extends JPanel implements Runnable {
 	    } else {
 	        player.draw(crtG);
 	    }
-
 	    GUI.draw(crtG);
 
 	    if (paused) {
@@ -143,12 +142,56 @@ public class Panel extends JPanel implements Runnable {
 	        GUI.pauseScreen(crtG);
 	    }
 
-	    offsetX = (getWidth() - crt.getWidth()) / 2;
-	    offsetY = (getHeight() - crt.getHeight()) / 2;
+	    offsetX = ((getWidth() - crt.getWidth()) / 2) & ~1;
+	    offsetY = ((getHeight() - crt.getHeight()) / 2) & ~1;
 
 	    Graphics2D g2 = (Graphics2D) g;
+	    g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
 	    crt.render(g2, offsetX, offsetY);
 	}
+
+//	@Override
+//	public void paintComponent(Graphics g) {
+//	    super.paintComponent(g);
+//
+//	    crtG = crt.getBufferedGraphics();
+//
+//	    crtG.setColor(Color.BLACK);
+//	    crtG.fillRect(0, 0, crt.getWidth(), crt.getHeight());
+//
+//	    tileM.draw(crtG);
+//
+//	    for (SuperObject obj : object) {
+//	        if (obj != null) obj.draw(crtG, this);
+//	    }
+//
+//	    if (player.isSwordHeld()) {
+//	        String dir = player.getLastDirection();
+//	        if ("right".equals(dir) || "down".equals(dir)) {
+//	            player.draw(crtG);
+//	            sword.draw(crtG);
+//	        } else {
+//	            sword.draw(crtG);
+//	            player.draw(crtG);
+//	        }
+//	    } else {
+//	        player.draw(crtG);
+//	    }
+//
+//	    GUI.draw(crtG);
+//
+//	    if (paused) {
+//	        crtG.setColor(new Color(0, 0, 0, 150));
+//	        crtG.fillRect(0, 0, crt.getWidth(), crt.getHeight());
+//	        GUI.pauseScreen(crtG);
+//	    }
+//
+//	    offsetX = (getWidth() - crt.getWidth()) / 2;
+//	    offsetY = (getHeight() - crt.getHeight()) / 2;
+//
+//	    Graphics2D g2 = (Graphics2D) g;
+//	    crt.render(g2, offsetX, offsetY);
+//	}
 	
 	public void startGameThread() {
 		gameThread = new Thread(this);
@@ -165,8 +208,9 @@ public class Panel extends JPanel implements Runnable {
 		sound.play();
 	}
 	
-	public void setGameObjects() {
+	public void setGameStart() {
 		asset.setUpObjects();
+		playMusic(3);
 	}
 	
 	public AssetManager getAsset() {
@@ -226,10 +270,6 @@ public class Panel extends JPanel implements Runnable {
 		return player;
 	}
 	
-	public Graphics2D getG2() {
-		return g2;
-	}
-
 	public Collision getCollision() {
 		return collision;
 	}

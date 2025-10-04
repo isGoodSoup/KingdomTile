@@ -76,21 +76,20 @@ public class Player extends Entity {
 	}
 	
 	public void update() {
-		if(key.isUpPressed() || key.isDownPressed() || key.isLeftPressed() || key.isRightPressed()) {
-			if(key.isUpPressed()) { direction = "up"; lastDirection = "up"; } 
-			else if(key.isDownPressed()) { direction = "down"; lastDirection = "down"; } 
-			
-			if(key.isLeftPressed()) { direction = "left"; lastDirection = "left";} 
-			else if(key.isRightPressed()) { direction = "right"; lastDirection = "right"; }
-			
-			if(key.isSpacePressed()) {}
-			
-			if(key.isShiftPressed()) { updateSprint(); }
-			
-			if(key.isCtrlPressed()) { speed = defaultSpeed; }
-		} else {
-			direction = "idle";
-		}
+		String newDirection = null;
+
+	    if(key.isUpPressed()) newDirection = "up";
+	    else if(key.isDownPressed()) newDirection = "down";
+
+	    if(key.isLeftPressed()) newDirection = "left";
+	    else if(key.isRightPressed()) newDirection = "right";
+
+	    if(newDirection != null) {
+	        direction = newDirection;
+	        lastDirection = newDirection;
+	    } else {
+	        direction = "idle";
+	    }
 		
 		isCollisionOn = false;
 		panel.getCollision().checkTile(this);

@@ -46,6 +46,14 @@ public class CRT {
 	    g.drawImage(buffer, x, y + 1, null);
 	    g.setComposite(old);
 	}
+	
+	public BufferedImage getBuffer() {
+		return buffer;
+	}
+
+	public void setBuffer(BufferedImage buffer) {
+		this.buffer = buffer;
+	}
 
 	public int getWidth() {
 		return width;
