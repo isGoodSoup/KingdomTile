@@ -95,7 +95,7 @@ public class Panel extends JPanel implements Runnable {
 	        key.update();
 
 	        try {
-	            Thread.sleep(1);
+	            Thread.sleep(16);
 	        } catch (InterruptedException e) {
 	            Thread.currentThread().interrupt();
 	        }
