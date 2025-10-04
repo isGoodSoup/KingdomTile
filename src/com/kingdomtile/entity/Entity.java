@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Entity {
+public abstract class Entity {
 	protected int worldX, worldY;
 	protected int defaultSpeed = 4;
 	protected int speed = defaultSpeed;
@@ -17,7 +17,7 @@ public class Entity {
 	protected String lastDirection = "down";
 	protected int spriteCounter = 0;
 	protected int spriteNum = 1;
-	protected Rectangle solidRectangle;
+	protected Rectangle solidRectangle = new Rectangle(0, 0, 48, 48);
 	protected int solidRectangleX, solidRectangleY;
 	protected boolean isCollisionOn = false;
 	protected final static Logger log = LoggerFactory.getLogger(Entity.class);

@@ -30,8 +30,8 @@ public class Player extends Entity {
 	public Player(Panel panel, Input key) {
 		this.panel = panel;
 		this.key = key;
-		screenX = panel.getScreenHeight() / 2 - (panel.getTileSize() / 2);
-		screenY = panel.getScreenWidth() / 2 - (panel.getTileSize() / 2);
+		screenX = panel.getScreenHeight()/2 - (panel.getTileSize()/2);
+		screenY = panel.getScreenWidth()/2 - (panel.getTileSize()/2);
 		solidRectangle = new Rectangle(8, 16, 32, 32);
 		solidRectangleX = solidRectangle.x;
 		solidRectangleY = solidRectangle.y;
@@ -69,7 +69,6 @@ public class Player extends Entity {
 			right2 = ImageIO.read(getClass().getResourceAsStream("/com/kingdomtile/player/mage-right_02.png"));
 			idle7 = ImageIO.read(getClass().getResourceAsStream("/com/kingdomtile/player/mage-right_idle_01.png"));
 			idle8 = ImageIO.read(getClass().getResourceAsStream("/com/kingdomtile/player/mage-right_idle_02.png"));
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
