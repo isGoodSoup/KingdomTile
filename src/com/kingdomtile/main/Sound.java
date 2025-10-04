@@ -13,7 +13,8 @@ public class Sound {
 	public Sound() {
 		soundURL[0] = getClass().getResource("/com/kingdomtile/fx/new-item.wav");
 		soundURL[1] = getClass().getResource("/com/kingdomtile/fx/door-open.wav");
-		soundURL[2] = getClass().getResource("/com/kingdomtile/fx/coin-pickup.wav");
+		soundURL[2] = getClass().getResource("/com/kingdomtile/fx/coin-pickup.wav"); // by chieuk
+		soundURL[3] = getClass().getResource("/com/kingdomtile/fx/main-theme.wav"); // by nickpanek
 	}
 	
 	public void setFile(int i) {

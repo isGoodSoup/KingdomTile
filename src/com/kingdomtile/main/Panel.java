@@ -74,6 +74,7 @@ public class Panel extends JPanel implements Runnable {
 	@Override
 	public void run() {
 		lastTime = System.nanoTime();
+		playMusic(3);
 	    while (gameThread != null) {
 	        currentTime = System.nanoTime();
 	        delta += (currentTime - lastTime) / drawInterval;
@@ -152,6 +153,11 @@ public class Panel extends JPanel implements Runnable {
 	public void startGameThread() {
 		gameThread = new Thread(this);
 		gameThread.start();
+	}
+	
+	public void playMusic(int i) {
+		sound.setFile(i);
+		sound.loop();
 	}
 	
 	public void playFX(int i) {
