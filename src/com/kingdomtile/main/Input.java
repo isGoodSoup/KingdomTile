@@ -6,7 +6,7 @@ import java.awt.event.KeyListener;
 public class Input implements KeyListener {
 	private boolean isUpPressed, isDownPressed, isLeftPressed, isRightPressed, isSpacePressed;
 	private boolean isEPressed, EJustPressed;
-	private boolean isShiftPressed, isCtrlPressed;
+	private boolean isShiftPressed;
 	private boolean isEscapePressed, escapeJustPressed;
 	private int key;
 	
@@ -53,10 +53,6 @@ public class Input implements KeyListener {
 			isShiftPressed = true;
 		}
 		
-		if(key == KeyEvent.VK_CONTROL) {
-			isCtrlPressed = true;
-		}
-		
 		if (key == KeyEvent.VK_ESCAPE) {
 		    if (!isEscapePressed) {
 		        escapeJustPressed = true;
@@ -97,10 +93,6 @@ public class Input implements KeyListener {
 			isShiftPressed = false;
 		}
 		
-		if(key == KeyEvent.VK_CONTROL) {
-			isCtrlPressed = false;
-		}
-		
 		if(key == KeyEvent.VK_ESCAPE) {
 			isEscapePressed = false;
 		}
@@ -136,10 +128,6 @@ public class Input implements KeyListener {
 
 	public boolean isShiftPressed() {
 		return isShiftPressed;
-	}
-
-	public boolean isCtrlPressed() {
-		return isCtrlPressed;
 	}
 
 	public boolean isEscapePressed() {

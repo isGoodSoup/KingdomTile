@@ -26,8 +26,9 @@ public class Player extends Entity {
 	private int coinCounter = 0;
 	private boolean isSwordHeld = false;
 	private final static Logger log = LoggerFactory.getLogger(Player.class);
-
+	
 	public Player(Panel panel, Input key) {
+		super(panel);
 		this.panel = panel;
 		this.key = key;
 		screenX = panel.getScreenHeight()/2 - (panel.getTileSize()/2);
@@ -75,7 +76,11 @@ public class Player extends Entity {
 		}
 	}
 	
-	public void update() {
+	@Override
+	public void getSprite() {}
+	
+	@Override
+	public void action() {
 		String newDirection = null;
 
 	    if(key.isUpPressed()) newDirection = "up";
@@ -90,9 +95,15 @@ public class Player extends Entity {
 	    } else {
 	        direction = "idle";
 	    }
-		
+	}
+	
+	@Override
+	public void update() {
+		action();
+		updateSprint();
 		isCollisionOn = false;
 		panel.getCollision().checkTile(this);
+		
 		int objectIndex = panel.getCollision().checkObject(this, true);
 		pickUp(objectIndex);
 		

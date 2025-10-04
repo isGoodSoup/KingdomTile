@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.kingdomtile.entity.Entity;
 import com.kingdomtile.entity.Player;
 import com.kingdomtile.objects.SuperObject;
 import com.kingdomtile.objects.Sword;
@@ -54,6 +55,7 @@ public class Panel extends JPanel implements Runnable {
 	private AssetManager asset = new AssetManager(this);
 	private Sound sound = new Sound();
 	private Player player = new Player(this, key);
+	private Entity[] NPC = new Entity[10];
 	private UI GUI = new UI(this);
 	private SuperObject object[] = new SuperObject[20];
 	private final static Logger log = LoggerFactory.getLogger(Panel.class);
@@ -104,6 +106,12 @@ public class Panel extends JPanel implements Runnable {
 		
 	public void update() {
 		player.update();
+		
+		for (Entity ent : NPC) {
+	        if (ent != null) {
+	            ent.update();
+	        }
+	    }
 	}
 	
 	@Override
@@ -120,6 +128,10 @@ public class Panel extends JPanel implements Runnable {
 
 	    for (SuperObject obj : object) {
 	        if (obj != null) obj.draw(crtG, this);
+	    }
+	    
+	    for (Entity ent : NPC) {
+	    	if (ent != null) ent.draw(crtG);
 	    }
 	    
 	    String dir = player.getLastDirection();
@@ -210,6 +222,7 @@ public class Panel extends JPanel implements Runnable {
 	
 	public void setGameStart() {
 		asset.setUpObjects();
+		asset.setUpNPC();
 		playMusic(3);
 	}
 	
@@ -308,5 +321,13 @@ public class Panel extends JPanel implements Runnable {
 
 	public void setObject(SuperObject[] object) {
 		this.object = object;
+	}
+
+	public Entity[] getNPC() {
+		return NPC;
+	}
+
+	public void setNPC(Entity[] nPC) {
+		NPC = nPC;
 	}
 }

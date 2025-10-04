@@ -1,23 +1,27 @@
 package com.kingdomtile.entity.npcs;
 
+import java.util.Random;
+
 import javax.imageio.ImageIO;
 
-import com.kingdomtile.entity.NPC;
+import com.kingdomtile.entity.Entity;
 import com.kingdomtile.main.Panel;
 
-public class OldMan extends NPC {
+public class OldMan extends Entity {
+	private Random random = new Random();
 	private Panel panel;
 	
 	public OldMan(Panel panel) {
-		super();
+		super(panel);
 		this.panel = panel;
-		direction = "down";
-		speed = 2;
+		this.direction = "down";
+		this.speed = 1;
+		getSprite();
 	}
 	
 	@Override
 	public void getSprite() {
-		String defaultPath = "/com/kingdomtile/npc/oldie";
+		String defaultPath = "/com/kingdomtile/npc/";
 		try {
 			down1 = ImageIO.read(getClass().getResourceAsStream(defaultPath + "oldman-down_01.png"));
 			down2 = ImageIO.read(getClass().getResourceAsStream(defaultPath + "oldman-down_02.png"));
@@ -38,6 +42,27 @@ public class OldMan extends NPC {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	@Override
+	public void action() {
+	    actionCounter++;
+	    if (actionCounter > 120) {
+	        int i = random.nextInt(5);
+	        switch(i) {
+	            case 0: direction = "up"; break;
+	            case 1: direction = "down"; break;
+	            case 2: direction = "left"; break;
+	            case 3: direction = "right"; break;
+	            case 4: direction = "idle"; break;
+	        }
+	        actionCounter = 0;
+	    }
+	}
+	
+	@Override
+	public void update() {
+		super.update();
 	}
 	
 	public Panel getPanel() {

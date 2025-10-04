@@ -1,5 +1,7 @@
 package com.kingdomtile.main;
 
+import com.kingdomtile.entity.Entity;
+import com.kingdomtile.entity.npcs.OldMan;
 import com.kingdomtile.objects.Chest;
 import com.kingdomtile.objects.Coin;
 import com.kingdomtile.objects.Door;
@@ -32,10 +34,20 @@ public class AssetManager {
         addObject(10, new Coin(panel), 31, 24);
         addObject(11, new Dungeon(panel, panel.getPlayer()), 31, 16);
     }
+	
+	public void setUpNPC() {
+		addNPC(0, new OldMan(panel), 21, 21);
+	}
 
 	private void addObject(int i, SuperObject obj, int x, int y) {
         obj.setWorldX(x * panel.getTileSize());
         obj.setWorldY(y * panel.getTileSize());
         panel.getObject()[i] = obj;
     }
+	
+	private void addNPC(int i, Entity ent, int x, int y) {
+		ent.setWorldX(x * panel.getTileSize());
+		ent.setWorldY(y * panel.getTileSize());
+		panel.getNPC()[i] = ent;
+	}
 }
