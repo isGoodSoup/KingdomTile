@@ -39,7 +39,7 @@ public class AssetManager {
 	
 	public void setUpNPC() {
 		addNPC(0, new OldMan(panel), 27, 35);
-		addNPC(0, new Warrior(panel), 32, 21);
+		addNPC(0, new Warrior(panel), 27, 21);
 	}
 
 	private void addObject(int i, SuperObject obj, int x, int y) {
