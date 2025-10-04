@@ -38,7 +38,7 @@ public class AssetManager {
     }
 	
 	public void setUpNPC() {
-		addNPC(0, new OldMan(panel), 21, 21);
+		addNPC(0, new OldMan(panel), 34, 36);
 		addNPC(1, new Warrior(panel), 30, 21);
 	}
 
