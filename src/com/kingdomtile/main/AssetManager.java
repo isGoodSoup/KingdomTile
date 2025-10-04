@@ -2,6 +2,7 @@ package com.kingdomtile.main;
 
 import com.kingdomtile.entity.Entity;
 import com.kingdomtile.entity.npcs.OldMan;
+import com.kingdomtile.entity.npcs.Warrior;
 import com.kingdomtile.objects.Chest;
 import com.kingdomtile.objects.Coin;
 import com.kingdomtile.objects.Door;
@@ -38,6 +39,7 @@ public class AssetManager {
 	
 	public void setUpNPC() {
 		addNPC(0, new OldMan(panel), 27, 35);
+		addNPC(0, new Warrior(panel), 32, 21);
 	}
 
 	private void addObject(int i, SuperObject obj, int x, int y) {
